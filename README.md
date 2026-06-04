@@ -1,156 +1,38 @@
-# viral.app MCP Server - TikTok Analytics for AI
+# viral.app MCP Server (Deprecated)
 
-Connect your AI tools to live TikTok analytics with viral.app's Model Context Protocol (MCP) server. Get real-time TikTok data directly in Cursor, Claude Desktop, Raycast, and more.
+> [!WARNING]
+> The viral.app TikTok MCP is deprecated. Do not start new integrations with this MCP server or the legacy `https://viral.app/api/mcp` endpoint.
 
-**🚀 Get started at [viral.app/mcp](https://viral.app/mcp)**
+viral.app now recommends using the [viral.app API](https://viral.app/api/v1/docs) for new integrations. For agent workflows, use the [viral.app agent skill](https://viral.app/app/org/api/agents) instead of MCP-style client configuration.
 
-## What is viral.app MCP?
+For the full migration context, read: [TikTok MCP Deprecated: Use the viral.app API](https://viral.app/free-tools/tiktok-mcp).
 
-viral.app MCP is a powerful bridge between your AI assistant and TikTok's analytics data. Using the Model Context Protocol standard, it enables your AI to:
+## What changed
 
-- Look up TikTok user profiles and statistics
-- Analyze video performance metrics
-- Retrieve video transcripts
-- List recent videos from any profile
+This repository originally documented a hosted MCP endpoint for TikTok-only lookups. That endpoint answered a narrow set of questions: fetch a TikTok profile, inspect a TikTok video, list recent profile videos, and run simple analysis around those results.
 
-No more manual data gathering—just ask your AI and get instant TikTok insights.
+The replacement is the broader viral.app API surface, which supports live lookups, tracked analytics, projects, Creator Hub workflows, payouts, exports, and multiple short-form platforms through the API `platform` parameter.
 
-## Quick Setup
+## Recommended path
 
-### 1. Create Your Free Account
+1. Create a viral.app API key in [API Keys](https://viral.app/app/org/api/keys).
+2. Use the [interactive API docs](https://viral.app/api/v1/docs) to build against the supported endpoints.
+3. For AI agent workflows, install the viral.app skill and expose `VIRAL_API_KEY` in the agent environment.
+4. Start with read-only analytics workflows before enabling any write actions.
 
-Sign up at [viral.app/auth/sign-up]([https://viral.app/mcp](https://viral.app/auth/sign-up)) to get started. No credit card required, and you don't need a paid subscription to use the MCP server.
+## Legacy MCP context
 
-### 2. Configure Your AI Client
+The historical MCP endpoint was:
 
-Add the viral.app MCP server to your preferred AI tool:
-
-#### Cursor
-
-```json
-{
-  "mcpServers": {
-    "viral.app": {
-      "command": "npx",
-      "args": ["-y", "mcp-remote@latest", "https://viral.app/api/mcp"]
-    }
-  }
-}
+```text
+https://viral.app/api/mcp
 ```
 
-#### Raycast
+Existing Cursor, Raycast, Claude Desktop, Windsurf, Cline, or `mcp-remote` configurations that point to this endpoint should be treated as legacy configuration and migrated to API-key based workflows.
 
-- Name: `viral.app`
-- Command: `npx`
-- Arguments: `-y mcp-remote@latest https://viral.app/api/mcp`
+## Useful links
 
-#### Claude Desktop, Windsurf, Cline
-
-Use the same JSON configuration as Cursor in your MCP settings.
-
-### 3. Authenticate
-
-After adding the server, you'll be prompted to authenticate via OAuth. Complete the authentication, and you're ready to analyze TikTok data!
-
-## Available Tools
-
-### 🔍 Get TikTok Profile (`get-tiktok-profile`)
-
-Retrieve comprehensive profile data including follower counts, engagement stats, and profile metadata.
-
-**Example Usage:**
-
-```
-"How many followers does MrBeast have on TikTok?"
-"Get the profile stats for @charlidamelio"
-```
-
-**Returns:**
-
-- Profile information (nickname, bio link, verification status)
-- Statistics (followers, following, videos, hearts given/received)
-
-### 📹 Get Video Details (`get-tiktok-video`)
-
-Analyze any TikTok video URL to get comprehensive stats, author details, and optional transcripts.
-
-**Example Usage:**
-
-```
-"Analyze this TikTok video: https://www.tiktok.com/@user/video/123456"
-"Get the transcript for this TikTok video: [url]"
-```
-
-**Returns:**
-
-- Video metadata (description, duration, creation time)
-- Performance metrics (views, likes, shares, comments)
-- Author information
-- Transcript (optional, costs 2 credits)
-
-### 📊 List Profile Videos (`list-profile-videos`)
-
-Retrieve up to 30 recent videos from any TikTok profile with detailed performance metrics.
-
-**Example Usage:**
-
-```
-"Show me the last 10 videos from @nike"
-"List the recent posts from @natgeo with their stats"
-```
-
-**Returns:**
-
-- List of videos with metadata
-- Performance statistics for each video
-- Video URLs and dimensions
-
-## Daily Credit System
-
-Start analyzing TikTok data immediately with our free tier:
-
-| Plan           | Daily Tool Calls | Best For                     |
-| -------------- | ---------------- | ---------------------------- |
-| **Free**       | 5                | Testing & personal use       |
-| **Pro**        | 50               | Content creators & marketers |
-| **Ultra**      | 500              | Agencies & power users       |
-| **Enterprise** | Unlimited        | Large teams & automation     |
-
-Learn more about pricing at [https://viral.app/mcp](https://viral.app/mcp)
-
-## Coming Soon 🎉
-
-We're expanding beyond TikTok! Get ready for:
-
-- **Instagram MCP Server** - Track follower growth, post engagement, story insights, and competitor performance
-- **YouTube MCP Server** - Analyze channel statistics, video metrics, audience demographics, and content trends
-- **Personal viral.app MCP** - Access your own viral.app analytics data through AI
-
-Your credits will work across all our MCP servers—one subscription, multiple platforms!
-
-## Troubleshooting
-
-### Authentication Issues
-
-If you can't authenticate, try clearing the mcp-remote cache:
-
-```bash
-rm -rf ~/.mcp-auth
-```
-
-### Missing Node.js
-
-The MCP server requires Node.js. Install it via:
-
-- macOS: `brew install node` or [nodejs.org](https://nodejs.org)
-- Windows: Follow [this guide](https://www.pulsemcp.com/posts/how-to-get-started-using-mcp)
-
-## Support & Resources
-
-- 📚 Full documentation: [https://viral.app/mcp](https://viral.app/mcp)
-- 💬 Need help? Contact support through your viral.app dashboard
-- 🐛 Found a bug? Let us know via [hello@viral.app](mailto:hello@viral.app) or on [Twitter](https://x.com/mikey_starts).
-
----
-
-Built with ❤️ by [viral.app](https://viral.app) - Your AI-powered social media analytics platform.
+- [Deprecation and migration article](https://viral.app/free-tools/tiktok-mcp)
+- [viral.app API docs](https://viral.app/api/v1/docs)
+- [viral.app agent skill](https://viral.app/app/org/api/agents)
+- [API keys](https://viral.app/app/org/api/keys)
